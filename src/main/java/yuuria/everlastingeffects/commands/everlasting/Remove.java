@@ -75,15 +75,25 @@ public class Remove extends CommandBase {
     ) {
         if (args.length == 1) {
             List<String> out = new ArrayList<>(Arrays.asList(server.getOnlinePlayerNames()));
-            out.addAll(Arrays.asList("@a", "@p", "@r", "@s"));
+            out.add("@s");
             return getListOfStringsMatchingLastWord(args, out);
         }
         if (args.length == 2) {
             List<String> out = new ArrayList<>();
             out.add("all");
-            EntityPlayerMP player = server.getPlayerList().getPlayerByUsername(args[0]);
-            if (player != null) {
-                IEffectStorage storage = player.getCapability(EffectCapabilities.EFFECT_STORAGE, null);
+            String nameArgs = args[0];
+            EntityPlayerMP playerMP;
+            if (nameArgs.equals("@s")) {
+                try {
+                    playerMP = EntitySelector.matchOnePlayer(sender, nameArgs);
+                } catch (CommandException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                playerMP = server.getPlayerList().getPlayerByUsername(args[0]);
+            }
+            if (playerMP != null) {
+                IEffectStorage storage = playerMP.getCapability(EffectCapabilities.EFFECT_STORAGE, null);
                 if (storage != null) {
                     for (EffectInstance e : storage.getEffects()) {
                         out.add(e.name);
