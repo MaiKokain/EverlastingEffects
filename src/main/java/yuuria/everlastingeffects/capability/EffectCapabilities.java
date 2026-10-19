@@ -46,7 +46,7 @@ public final class EffectCapabilities {
                     for (int i = 0; i < list.tagCount(); i++) {
                         NBTTagCompound tag = list.getCompoundTagAt(i);
                         instance.getEffects()
-                            .add(new EffectInstance(tag.getString("effectName"), tag.getInteger("effectLevel"),
+                            .add(new EffectInstance(tag.getString("effectName"), tag.getInteger("effectLvl"),
                                 tag.getBoolean("effectShowParticle")
                             ));
                     }
